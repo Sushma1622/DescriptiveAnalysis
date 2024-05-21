@@ -1,3 +1,6 @@
+# Creating the table and displaying a chart to show the Hopeful Future Outlook of People by Gender and Province
+#Created By: Sushma Gowri Deivanayagam
+#Date: May 21, 2024
 # Define the data
 data <- data.frame(
   Geography = c("Canada (excluding territories)", "Atlantic Region", "Newfoundland and Labrador", 
