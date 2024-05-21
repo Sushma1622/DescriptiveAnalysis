@@ -1,0 +1,49 @@
+# Creating the table and displaying a chart to show the relationship between people who find it 
+#difficult to meet financial needs and those who find it easy to meet financial needs in each province.
+#Created By: Sushma Gowri Deivanayagam
+#Date: May 21, 2024
+# Define the data
+data <- data.frame(
+  Geography = c("Canada (excluding territories)", "Atlantic Region", "Newfoundland and Labrador", 
+                "Prince Edward Island", "Nova Scotia", "New Brunswick", "Quebec", "Ontario", 
+                "Prairies Region", "Manitoba", "Saskatchewan", "Alberta", "British Columbia"),
+  Total_Difficult = c(34.8, 38.4, 40.6, 32.9, 37, 39.7, 28.9, 36.7, 38.1, 36.6, 35.7, 39.1, 33.3),
+  Total_Neither = c(36.3, 36, 33.2, 39.5, 39.1, 33, 34.5, 37.9, 34.3, 35.6, 35.8, 33.6, 37.3),
+  Total_Easy = c(28.9, 25.7, 26.1, 27.6, 23.9, 27.2, 36.6, 25.4, 27.6, 27.9, 28.4, 27.3, 29.4),
+  Men_Difficult = c(34.3, 37.2, 43.2, 32.2, 34.6, 37.7, 27.6, 37.1, 37.3, 32.7, 37.5, 38.6, 32),
+  Men_Neither = c(35.5, 38.9, 29.9, 39, 44.4, 38, 34.1, 37.2, 32.9, 33.8, 31.9, 32.9, 34.5),
+  Men_Easy = c(30.2, 23.8, 26.9, 28.8, 21, 24.3, 38.2, 25.7, 29.8, 33.5, 30.6, 28.5, 33.5),
+  Women_Difficult = c(35.3, 39.5, 38.1, 33.7, 39.4, 41.7, 30.1, 36.3, 38.8, 40.5, 33.9, 39.5, 34.6),
+  Women_Neither = c(37.1, 33, 36.5, 39.9, 33.9, 28.2, 34.9, 38.6, 35.7, 37.3, 39.9, 34.3, 40),
+  Women_Easy = c(27.6, 27.5, 25.4, 26.4, 26.6, 30.1, 35, 25, 25.4, 22.2, 26.3, 26.2, 25.4)
+)
+
+# View the data frame
+print(data)
+
+library(ggplot2)
+library(reshape2)
+
+# Melt the data frame for ggplot2, including both Difficult and Easy categories
+data_melt <- melt(data, id.vars = "Geography", 
+                  measure.vars = c("Total_Difficult", "Total_Easy",
+                                   "Men_Difficult", "Men_Easy",
+                                   "Women_Difficult", "Women_Easy"),
+                  variable.name = "Group", value.name = "Percent")
+
+# Separate the Group variable into two separate variables for clarity
+data_melt$Category <- ifelse(grepl("Total", data_melt$Group), "Total",
+                             ifelse(grepl("Men", data_melt$Group), "Men", "Women"))
+data_melt$Difficulty <- ifelse(grepl("Difficult", data_melt$Group), "Difficult", "Easy")
+
+# Create the plot
+ggplot(data_melt, aes(x = Geography, y = Percent, fill = interaction(Category, Difficulty))) +
+  geom_bar(stat = "identity", position = "dodge") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(title = "Relationship Between Difficult and Easy Financial Needs by Province",
+       x = "Province",
+       y = "Percent",
+       fill = "Category and Difficulty") +
+  scale_fill_manual(values = c("Total.Difficult" = "blue", "Total.Easy" = "lightblue",
+                               "Men.Difficult" = "green", "Men.Easy" = "lightgreen",
+                               "Women.Difficult" = "red", "Women.Easy" = "pink"))
