@@ -40,7 +40,7 @@ data_melt$Difficulty <- ifelse(grepl("Difficult", data_melt$Group), "Difficult",
 ggplot(data_melt, aes(x = Geography, y = Percent, fill = interaction(Category, Difficulty))) +
   geom_bar(stat = "identity", position = "dodge") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  labs(title = "Relationship Between Difficult and Easy Financial Needs by Province",
+  labs(title = "Percent of People who find it Difficult and Easy for their household to meet the Financial Needs by Province",
        x = "Province",
        y = "Percent",
        fill = "Category and Difficulty") +
