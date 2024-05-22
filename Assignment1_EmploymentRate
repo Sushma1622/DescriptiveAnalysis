@@ -1,0 +1,35 @@
+#Code to create the dataset and to create a box plot for Employment Rate by Education Level
+#Created By: Sushma Gowri Deivanayagam
+#Date: May 21, 2024
+# Load necessary libraries
+library(ggplot2)
+library(reshape2)
+
+# Create the data frame
+employment_data <- data.frame(
+  Education = c("Total, all education levels", "No degree, certificate or diploma", "High school graduate",
+                "High school graduate, some post-secondary", "Postsecondary certificate or diploma",
+                "Without high school graduation", "With high school graduation", "University degree",
+                "Bachelor's degree", "Above bachelor's degree"),
+  `2019` = c(62.9, 32.3, 55.8, 62.5, 68.8, 48.7, 70.4, 74, 74, 73.9),
+  `2020` = c(59.5, 30.1, 51.7, 57.2, 63.9, 45.4, 65.4, 71.3, 70.8, 72.5),
+  `2021` = c(61.3, 30.5, 51.9, 59.5, 65, 43.8, 66.6, 74.1, 73.4, 75.5),
+  `2022` = c(62.5, 31.5, 54, 62.1, 66, 43.5, 67.8, 74.4, 73.7, 75.9),
+  `2023` = c(62.7, 32.4, 53.9, 60.7, 65.9, 44.9, 67.6, 74.4, 74.1, 75.1)
+)
+
+# Print the data frame
+print(employment_data)
+
+# Reshape the data for plotting
+employment_long <- melt(employment_data, id.vars = "Education", variable.name = "Year", value.name = "EmploymentRate")
+
+# Create the box plot with colors
+ggplot(employment_long, aes(x = Education, y = EmploymentRate, fill = Education)) +
+  geom_boxplot() +
+  labs(title = "Employment Rate by Education Level (2019-2023)",
+       x = "Education Level",
+       y = "Employment Rate (%)") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.title = element_text(hjust = 0.5)) +
+  scale_fill_brewer(palette = "Set3")
