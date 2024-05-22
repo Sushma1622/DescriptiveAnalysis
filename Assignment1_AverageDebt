@@ -1,3 +1,7 @@
+#Creating the table and displaying a graph that shows the average debt by Education Level
+#Created By: Sushma Gowri Deivanayagam
+#Date: May 21, 2024
+# Load necessary libraries
 library(tidyverse)
 # Creating the data frame
 debt_data <- data.frame(
