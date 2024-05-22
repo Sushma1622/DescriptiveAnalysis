@@ -1,0 +1,25 @@
+library(tidyverse)
+# Creating the data frame
+debt_data <- data.frame(
+  Year = rep(c(2000, 2005, 2010, 2015, 2020), each = 4),
+  Level_of_Study = rep(c("College", "Bachelor's", "Master's", "Doctorate"), times = 5),
+  Average_Debt = c(12700, 20500, 20300, 23900,
+                   13600, 22800, 22800, 25600,
+                   14900, 26300, 26600, 41100,
+                   15300, 28000, 28000, 33000,
+                   16700, 30600, 33300, 38200)
+)
+
+# Viewing the data frame
+print(debt_data)
+
+# Creating the graph
+ggplot(debt_data, aes(x = Year, y = Average_Debt, color = Level_of_Study)) +
+  geom_line(size = 1) +
+  geom_point(size = 2) +
+  labs(title = "Average Debt at Graduation by Level of Study (2000-2020)",
+       x = "Year",
+       y = "Average Debt in Dollars") +
+  theme_minimal() +
+  theme(legend.title = element_blank(),
+        legend.position = "bottom")
