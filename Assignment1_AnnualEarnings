@@ -1,0 +1,34 @@
+#Creating the table and displaying a dot chart for Median Annual Earnings by Education Level, Gender, and Region
+#Created By: Sushma Gowri Deivanayagam
+#Date: May 21, 2024
+# Load necessary libraries
+library(ggplot2)
+library(reshape2)
+
+# Create the data frame
+earnings_data <- data.frame(
+  Gender = rep(c("Women", "Men"), each = 4),
+  Region = rep(c("Canada", "Y.T.", "N.W.T.", "Nvt."), times = 2),
+  HighSchoolDiploma = c(43254, 59706, 75322, 88064, 55774, 64789, 87721, 83968),
+  ApprenticeshipCertificate = c(38230, 57910, 76044, 78080, 72955, 82125, 100531, 102656),
+  CollegeDiploma = c(48599, 65552, 84075, 94571, 67965, 80595, 101668, 105344),
+  BachelorsDegree = c(68342, 77605, 104929, 117888, 82082, 88387, 115579, 124160)
+)
+
+# Print the data frame
+print(earnings_data)
+
+# Reshape the data for plotting
+earnings_long <- melt(earnings_data, id.vars = c("Gender", "Region"), 
+                      variable.name = "EducationLevel", value.name = "MedianEarnings")
+
+# Create the dot chart
+ggplot(earnings_long, aes(x = EducationLevel, y = MedianEarnings, color = Gender)) +
+  geom_point(size = 3, position = position_dodge(width = 0.5)) +
+  facet_wrap(~ Region) +
+  labs(title = "Median Annual Earnings by Education Level, Gender, and Region",
+       x = "Education Level",
+       y = "Median Annual Earnings (CAD)",
+       color = "Gender") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.title = element_text(hjust = 0.5))
